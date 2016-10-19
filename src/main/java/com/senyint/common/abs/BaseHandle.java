@@ -1,15 +1,9 @@
 package com.senyint.common.abs;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.senyint.common.handles.IHandle;
 
 public abstract class BaseHandle{
 
