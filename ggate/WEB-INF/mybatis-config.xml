@@ -25,7 +25,7 @@
 
 		<setting name="jdbcTypeForNull" value="VARCHAR" />
 		<!-- logImpl可选的值有：SLF4J、LOG4J、LOG4J2、JDK_LOGGING、COMMONS_LOGGING、STDOUT_LOGGING、NO_LOGGING 或者是实现了接口org.apache.ibatis.logging.Log的类的完全限定类名， 并且这个类的构造函数需要是以一个字符串（String类型）为参数的。 -->
-		<setting name="logImpl" value="SLF4J" />
+		<setting name="logImpl" value="LOG4J" />
 	</settings>
 	<!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径 -->
 	<typeAliases>

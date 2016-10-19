@@ -23,9 +23,9 @@
                TIME_END,
                DEL_FLG
           FROM NMIS_NOTICE
-         WHERE SYSDATE BETWEEN TIME_BEGIN AND TIME_END
-       		<![CDATA[ AND DEL_FLG <> '1' ]]>  
-       		ORDER BY CREATE_DATE DESC
+         --WHERE SYSDATE BETWEEN TIME_BEGIN AND TIME_END
+       		--<![CDATA[ AND DEL_FLG <> '1' ]]>  
+       		--ORDER BY CREATE_DATE DESC
 	</select>
 	
 	<insert id="addNotice" parameterType="java.util.Map">

@@ -52,7 +52,15 @@
 		-->
 	</bean>
 	
+    <bean id="messageDao" class="com.senyint.common.dao.MessageDaoImpl">
+        <property name="sqlSession" ref="sqlSession"/>
+    </bean>
+    
     <bean id="HttpHandleBean" class="com.senyint.common.handles.HttpHandle"></bean>
+    
+    <bean id="SQLProcessingHandle" class="com.senyint.common.handles.SQLProcessingHandle">
+        <property name="messageDao" ref="messageDao"/>
+    </bean>
     <bean id="LoadDocumentHandle" class="com.senyint.common.handles.LoadDocumentHandle">
         <property name="inParamList">
             <list>
@@ -84,8 +92,9 @@
     <bean name="/main" class="com.senyint.common.ctrl.CommandController">
         <property name="handleList">
             <list>
-                <ref bean="Request2DocumentHandle" />
-                <ref bean="LoadDocumentHandle" />
+                <!-- <ref bean="Request2DocumentHandle" />
+                <ref bean="LoadDocumentHandle" /> -->
+                <ref bean="SQLProcessingHandle" />
             </list>
         </property>
     </bean>
