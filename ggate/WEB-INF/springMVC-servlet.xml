@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+	<!-- 用于${}开头标识的解析,首先在System.getProperty()查找,然后在*.properties查找
+	  - 找到后将${}替换成实际值,下文中的${webapp.root}由spring设置为contextPath
+	 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<!-- locations属性用于设置待查找的*.properties -->
+
+    </bean>
+    
+   
+    <!-- 视图解析器，找到相应的jsp文件，并为其提供messagesource等资源 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+		<property name="prefix"><value>/views/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+		<!--
+		<property name="suffix"><value>.jsp</value></property>
+		-->
+	</bean>
+	
+    <bean id="HttpHandleBean" class="com.senyint.common.handles.HttpHandle"></bean>
+    <bean id="LoadDocumentHandle" class="com.senyint.common.handles.LoadDocumentHandle">
+        <property name="inParamList">
+            <list>
+                <value>document</value>
+            </list>
+        </property>
+        <property name="xPathMap">
+            <map>  
+                <entry key="logicName" value="LOGIC/LOGICNAME:text"/>  
+                <entry key="data" value="DATA:map" />
+            </map>
+        </property>
+        <property name="outParamList">
+            <list>
+                <value>docData</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="Request2DocumentHandle" class="com.senyint.common.handles.Request2DocumentHandle">
+        <property name="charsetName2" value="GBK" />
+        <property name="charsetName1" value="utf-8" />
+        <property name="outParamList">
+            <list>
+                <value>document</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean name="/main" class="com.senyint.common.ctrl.CommandController">
+        <property name="handleList">
+            <list>
+                <ref bean="Request2DocumentHandle" />
+                <ref bean="LoadDocumentHandle" />
+            </list>
+        </property>
+    </bean>
+    
+<!-- 	<bean name="/query" class="com.senyint.pacs.common.CommandController">
+       <property name="commandMap">
+           <map>
+                <entry key="GetPatientBaseInfo"><ref bean="GetPatientBaseInfo"/></entry>
+                <entry key="GetRequisition"><ref bean="GetRequisition"/></entry>
+                
+                <entry key="GetRequisitionByTime"><ref bean="GetRequisitionByTime"/></entry>
+                暂时不提供根据时间查询功能，下个版本中考虑 
+                <entry key="GetRequisitionByDiagId"><ref bean="GetRequisitionById"/></entry>
+               
+                <entry key="ConfirmRequisition"><ref bean="UpdateRequisition"/></entry>
+                <entry key="CancelRequisition"><ref bean="UpdateRequisition"/></entry>
+                <entry key="ReportVerified"><ref bean="UpdateRequisition"/></entry>
+           </map>
+       </property>
+    </bean> -->
+    
+</beans>
