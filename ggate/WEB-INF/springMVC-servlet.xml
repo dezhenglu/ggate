@@ -28,10 +28,12 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd  
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
+	<context:annotation-config />
 	<!-- 全局配置引用@Value(${}) 注意：注解方式重复加载问题 -->
 	<context:property-placeholder location="WEB-INF/jdbc.properties" />
-    
-    
+	<context:component-scan base-package="com.senyint.**">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>  
 
 	<!-- 用于${}开头标识的解析,首先在System.getProperty()查找,然后在*.properties查找
 	  - 找到后将${}替换成实际值,下文中的${webapp.root}由spring设置为contextPath

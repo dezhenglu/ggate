@@ -8,14 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.senyint.common.dao.MessageDao;
 import com.senyint.common.handles.IHandle;
 
 public class CommandController extends AbstractController{
 
     Logger logger = Logger.getLogger(this.getClass());
+    
+    @Autowired
+    private MessageDao messageDao;
     
     private List<IHandle> handleList;
     
@@ -30,7 +36,8 @@ public class CommandController extends AbstractController{
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        System.out.println("messageDao:gogogo:"+messageDao);
+    	messageDao.qryNotice();
         String reAddr = request.getRemoteAddr();
         String reHost = request.getRemoteHost();
         int rePort = request.getRemotePort();
