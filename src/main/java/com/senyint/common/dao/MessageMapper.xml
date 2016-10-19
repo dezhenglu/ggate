@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="message">
+
+	<select id="selectInstantMessage" resultType="Map">
+		select
+		*
+		from NMIS_MESSAGE
+		where 1=1
+		<if test="user != null and user != ''"><![CDATA[ and MESSAGE_FOR_USER =#{user} ]]></if>
+		<if test="hour != null and hour != ''"><![CDATA[ and CREATE_DATE >sysdate-${hour}/24 ]]></if>
+		order by CREATE_DATE desc
+	</select>
+	
+	<select id="selectNotice" resultType="Map" >
+        SELECT ID,
+               NOTICE_TITLE,
+               NOTICE_BODY,
+               NOTICE_TYPE,
+               CREATE_DATE,
+               TIME_BEGIN,
+               TIME_END,
+               DEL_FLG
+          FROM NMIS_NOTICE
+         WHERE SYSDATE BETWEEN TIME_BEGIN AND TIME_END
+       		<![CDATA[ AND DEL_FLG <> '1' ]]>  
+       		ORDER BY CREATE_DATE DESC
+	</select>
+	
+	<insert id="addNotice" parameterType="java.util.Map">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		  INSERT INTO NMIS_NOTICE
+		    (ID,
+		     NOTICE_TITLE,
+		     NOTICE_BODY,
+		     NOTICE_TYPE,
+		     CREATE_DATE,
+		     TIME_BEGIN,
+		     TIME_END,
+		     DEL_FLG)
+		  VALUES
+		    (#{id},
+		     #{ggtitle},
+		     #{ggbody},
+		     '0',
+		     sysdate,
+		     TO_DATE(#{ggbegindate} || '00:00:00', 'yyyy-MM-dd HH24:mi:ss'),
+		     TO_DATE(#{ggenddate} || '23:59:59', 'yyyy-MM-dd HH24:mi:ss'),
+		     '0')
+	</insert>
+	
+  	<update id="updateNotice" parameterType="java.util.Map" >  
+    	UPDATE NMIS_NOTICE  
+	    <set>  
+			<if test="ggtitle != null" >  
+				NOTICE_TITLE = #{ggtitle},  
+	      	</if>  
+			<if test="ggbody != null" >  
+			  	NOTICE_BODY = #{ggbody},
+			</if>
+			<if test="ggbegindate != null" >  
+			  	TIME_BEGIN = #{ggbegindate},
+			</if>
+			<if test="ggenddate != null" >  
+			  	TIME_END = #{ggenddate},
+			</if>
+			<if test="delflg != null" >  
+			  	DEL_FLG = #{delflg}
+			</if>
+    	</set>  
+    	WHERE ID = #{id}  
+  </update>
+
+	<insert id="insertInstantMessage" parameterType="Map">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select sys_guid() from dual
+		</selectKey>
+		insert into NMIS_MESSAGE (ID,MESSAGE,MESSAGE_FOR_USER,CREATE_DATE)
+		values ( #{id},#{message},#{user}, sysdate)
+	</insert>
+</mapper>
