@@ -1,18 +1,48 @@
-<?xml version="1.0" encoding="gb2312"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:cache="http://www.springframework.org/schema/cache" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:jms="http://www.springframework.org/schema/jms" 
+	xmlns:lang="http://www.springframework.org/schema/lang" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd  
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.2.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd  
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.2.xsd  
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.2.xsd  
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd  
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.2.xsd  
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd  
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
+	<!-- å…¨å±€é…ç½®å¼•ç”¨@Value(${}) æ³¨æ„ï¼šæ³¨è§£æ–¹å¼é‡å¤åŠ è½½é—®é¢˜ -->
+	<context:property-placeholder location="WEB-INF/jdbc.properties" />
+    
+    
 
-<beans>
-	<!-- ÓÃÓÚ${}¿ªÍ·±êÊ¶µÄ½âÎö,Ê×ÏÈÔÚSystem.getProperty()²éÕÒ,È»ºóÔÚ*.properties²éÕÒ
-	  - ÕÒµ½ºó½«${}Ìæ»»³ÉÊµ¼ÊÖµ,ÏÂÎÄÖÐµÄ${webapp.root}ÓÉspringÉèÖÃÎªcontextPath
+	<!-- ç”¨äºŽ${}å¼€å¤´æ ‡è¯†çš„è§£æž,é¦–å…ˆåœ¨System.getProperty()æŸ¥æ‰¾,ç„¶åŽåœ¨*.propertiesæŸ¥æ‰¾
+	  - æ‰¾åˆ°åŽå°†${}æ›¿æ¢æˆå®žé™…å€¼,ä¸‹æ–‡ä¸­çš„${webapp.root}ç”±springè®¾ç½®ä¸ºcontextPath
 	 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	<!-- locationsÊôÐÔÓÃÓÚÉèÖÃ´ý²éÕÒµÄ*.properties -->
+	<!-- locationså±žæ€§ç”¨äºŽè®¾ç½®å¾…æŸ¥æ‰¾çš„*.properties -->
 
     </bean>
     
    
-    <!-- ÊÓÍ¼½âÎöÆ÷£¬ÕÒµ½ÏàÓ¦µÄjspÎÄ¼þ£¬²¢ÎªÆäÌá¹©messagesourceµÈ×ÊÔ´ -->
+    <!-- è§†å›¾è§£æžå™¨ï¼Œæ‰¾åˆ°ç›¸åº”çš„jspæ–‡ä»¶ï¼Œå¹¶ä¸ºå…¶æä¾›messagesourceç­‰èµ„æº -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
 		<property name="prefix"><value>/views/</value></property>
@@ -60,21 +90,8 @@
         </property>
     </bean>
     
-<!-- 	<bean name="/query" class="com.senyint.pacs.common.CommandController">
-       <property name="commandMap">
-           <map>
-                <entry key="GetPatientBaseInfo"><ref bean="GetPatientBaseInfo"/></entry>
-                <entry key="GetRequisition"><ref bean="GetRequisition"/></entry>
-                
-                <entry key="GetRequisitionByTime"><ref bean="GetRequisitionByTime"/></entry>
-                ÔÝÊ±²»Ìá¹©¸ù¾ÝÊ±¼ä²éÑ¯¹¦ÄÜ£¬ÏÂ¸ö°æ±¾ÖÐ¿¼ÂÇ 
-                <entry key="GetRequisitionByDiagId"><ref bean="GetRequisitionById"/></entry>
-               
-                <entry key="ConfirmRequisition"><ref bean="UpdateRequisition"/></entry>
-                <entry key="CancelRequisition"><ref bean="UpdateRequisition"/></entry>
-                <entry key="ReportVerified"><ref bean="UpdateRequisition"/></entry>
-           </map>
-       </property>
-    </bean> -->
     
+    <!-- å¼•å…¥æœ¬åœ°å…¶ä»–springé…ç½® -->
+	<import resource="spring_*.xml" />
+
 </beans>
